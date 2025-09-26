@@ -1,0 +1,453 @@
+// Botão do menu mobile
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000; // Abaixo do header (1001)
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.1);
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+  }
+  
+  .hamburger-line {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #374151;
+    margin: 4px 0;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    box-shadow: none;
+  }
+}
+
+// Overlay para mobile
+.menu-overlay {
+  position: fixed;
+  top: 60px; // Começa abaixo do header
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 998; // Abaixo do header (1001) e menu (999)
+  backdrop-filter: blur(8px);
+}
+
+// Botão para minimizar/expandir (desktop)
+.minimize-toggle {
+  position: absolute;
+  top: 80px; // Posicionado abaixo do header (60px + 20px de margem)
+  right: -30px;
+  transform: none; // Remove o translateY(-50%)
+  width: 30px;
+  height: 100px;
+  background: #667eea;
+  border: none;
+  border-radius: 0 12px 12px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 2px 0 8px rgba(102, 126, 234, 0.3);
+  
+  &:hover {
+    width: 36px;
+    right: -36px;
+    background: #5a67d8;
+    box-shadow: 2px 0 12px rgba(102, 126, 234, 0.4);
+  }
+  
+  // Esconder o botão quando o menu estiver minimizado
+  .side-menu.minimized & {
+    display: flex; // Mantém visível quando minimizado
+  }
+}
+
+.side-menu {
+  position: fixed;
+  left: 0;
+  top: 60px; // Começa abaixo do header
+  width: 280px;
+  height: calc(100vh - 60px); // Altura total menos o header
+  background: white;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 
+    4px 0 16px rgba(0, 0, 0, 0.1);
+  z-index: 999; // Abaixo do header (1001)
+  overflow: visible; // Mudança para visible para que o botão não seja cortado
+  padding: 24px;
+  padding-top: 70px; // Espaço extra no topo para o botão
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.minimized {
+    width: 0;
+    padding: 0;
+    overflow: visible;
+    border-right: none;
+    box-shadow: none;
+    background: transparent;
+    
+    .menu-header {
+      display: none;
+    }
+    
+    .menu-sections {
+      display: none;
+    }
+    
+    .menu-footer {
+      display: none;
+    }
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+  }
+}
+
+// Container interno para scroll
+.menu-content {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px; // Espaço para a barra de scroll
+}
+
+.menu-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+  
+  h3 {
+    color: #1f2937;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    text-shadow: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.5px;
+  }
+  
+  p {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 0;
+    font-style: normal;
+  }
+}
+
+.menu-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border: 2px solid transparent;
+  
+  &.unlocked {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+    
+    &:hover {
+      background: #f3f4f6;
+      transform: translateX(5px);
+      box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.1);
+      border-color: #667eea;
+    }
+    
+    &.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-color: #667eea;
+      box-shadow: 
+        0 4px 16px rgba(102, 126, 234, 0.3);
+      
+      .section-name {
+        color: white;
+      }
+      
+      .section-description {
+        color: rgba(255, 255, 255, 0.8);
+      }
+      
+      .progress-bar {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
+        
+        .progress-fill {
+          background: white;
+          box-shadow: none;
+        }
+        
+        .progress-text {
+          color: white;
+        }
+      }
+    }
+  }
+  
+  &.locked {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.section-icon {
+  position: relative;
+  font-size: 2rem;
+  min-width: 40px;
+  text-align: center;
+  
+  .lock-icon {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.8rem;
+    color: #6b7280;
+    text-shadow: none;
+  }
+}
+
+.section-info {
+  flex: 1;
+  
+  .section-name {
+    color: #1f2937;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    text-shadow: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.3px;
+  }
+  
+  .section-description {
+    color: #6b7280;
+    font-size: 0.8rem;
+    margin: 0 0 10px 0;
+    line-height: 1.3;
+  }
+}
+
+.progress-bar {
+  position: relative;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid #d1d5db;
+  
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    box-shadow: none;
+  }
+  
+  .progress-text {
+    position: absolute;
+    top: -18px;
+    right: 0;
+    font-size: 0.7rem;
+    color: #6b7280;
+    font-weight: 600;
+  }
+}
+
+.active-indicator {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.menu-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+  
+  .completion-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    
+    .status-icon {
+      font-size: 1.2rem;
+    }
+    
+    .status-text {
+      color: #6b7280;
+      font-size: 0.8rem;
+      line-height: 1.3;
+      font-style: normal;
+    }
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    top: 70px; // Posicionado abaixo do header em mobile
+  }
+  
+  .minimize-toggle {
+    display: none; // Esconde o botão de minimizar em mobile
+  }
+  
+  .side-menu {
+    width: 250px;
+    padding: 15px;
+    top: 0; // Volta ao topo em mobile
+    height: 100vh; // Altura total em mobile
+    transform: translateX(-100%);
+    
+    &.open {
+      transform: translateX(0);
+    }
+    
+    &.minimized {
+      width: 250px; // Mantém largura normal em mobile mesmo minimizado
+      padding: 15px;
+      
+      .menu-header {
+        display: block; // Mostra o header em mobile
+      }
+      
+      .menu-sections {
+        gap: 15px;
+      }
+      
+      .menu-section {
+        justify-content: flex-start;
+        padding: 15px;
+        min-height: auto;
+        
+        .section-icon {
+          font-size: 1.8rem;
+          min-width: 35px;
+        }
+        
+        .lock-icon {
+          top: -5px;
+          right: -5px;
+          font-size: 0.8rem;
+        }
+      }
+      
+      .active-indicator {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2rem;
+      }
+    }
+  }
+  
+  .menu-header h3 {
+    font-size: 1.3rem;
+  }
+  
+  .section-icon {
+    font-size: 1.8rem;
+    min-width: 35px;
+  }
+  
+  .section-info .section-name {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-toggle {
+    top: 60px; // Ajustado para mobile pequeno
+  }
+  
+  .side-menu {
+    width: 220px;
+    padding: 10px;
+    
+    &.minimized {
+      width: 220px;
+      padding: 10px;
+    }
+  }
+  
+  .menu-section {
+    padding: 12px;
+    gap: 12px;
+    
+    &.minimized {
+      padding: 12px;
+      gap: 12px;
+    }
+  }
+  
+  .section-icon {
+    font-size: 1.6rem;
+    min-width: 30px;
+  }
+  
+  .section-info .section-name {
+    font-size: 0.9rem;
+  }
+  
+  .section-info .section-description {
+    font-size: 0.75rem;
+  }
+}
+
+// Animações
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.1);
+  }
+} 

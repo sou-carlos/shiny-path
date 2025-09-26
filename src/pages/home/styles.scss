@@ -1,0 +1,161 @@
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+  padding: 20px;
+  padding-left: 300px; // Espaço para o menu lateral
+  padding-top: 80px; // Espaço para o header fixo
+  position: relative;
+  overflow-x: hidden;
+  transition: padding-left 0.3s ease;
+  
+  &.menu-minimized {
+    padding-left: 20px; // Sem espaço quando minimizado (menu desaparece)
+  }
+  
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+.home-title {
+  color: #1f2937;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 40px;
+  margin-top: 100px; // Adicionado margin-top para evitar sobreposição
+  text-shadow: none;
+  animation: fadeInUp 1s ease-out;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.5px;
+  position: relative;
+  z-index: 1;
+}
+
+.section-title {
+  color: #374151;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: 20px;
+  text-shadow: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.3px;
+  position: relative;
+  z-index: 1;
+}
+
+.islands-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  width: 100%;
+  padding: 20px;
+  justify-items: center;
+  align-items: start;
+  margin-bottom: 20px;
+  margin-top: 120px; // Adicionado margin-top para evitar conflito com status
+  position: relative;
+  z-index: 1;
+}
+
+// Animações minimalistas
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .home-container {
+    padding: 15px;
+    padding-left: 15px; // Remove espaço do menu em mobile
+    
+    &.menu-minimized {
+      padding-left: 15px; // Mantém consistência em mobile
+    }
+  }
+  
+  .home-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    margin-top: 80px; // Ajustado para mobile
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    margin-top: 15px;
+  }
+  
+  .islands-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 20px;
+    padding: 15px;
+    margin-top: 100px; // Ajustado para mobile
+  }
+}
+
+@media (max-width: 480px) {
+  .home-container {
+    padding: 10px;
+    padding-left: 10px; // Remove espaço do menu em mobile pequeno
+  }
+  
+  .home-title {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    margin-top: 60px; // Ajustado para mobile pequeno
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
+  
+  .islands-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 10px;
+    margin-top: 80px; // Ajustado para mobile pequeno
+  }
+} 
