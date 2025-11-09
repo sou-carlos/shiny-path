@@ -183,6 +183,153 @@ const islandsData: Record<string, IslandData> = {
       ],
       correctAnswer: 0
     }
+  },
+  "comentario-1": {
+    id: "comentario-1",
+    name: "Introdução aos Comentários",
+    type: "content",
+    contentText: "Comentários são explicações escritas no código para ajudar outros desenvolvedores (e você mesmo no futuro) a entender o que o código faz. Comentários bem escritos explicam o 'porquê' e não o 'como'. Código limpo deve ser autoexplicativo, mas comentários são úteis para explicar decisões de negócio, algoritmos complexos ou contexto histórico."
+  },
+  "comentario-2": {
+    id: "comentario-2",
+    name: "Comentários Úteis",
+    type: "question",
+    contentText: "Teste sobre comentários úteis",
+    questionData: {
+      question: "Qual é o melhor tipo de comentário?",
+      answers: [
+        "A: Comentários que explicam o que o código faz",
+        "B: Comentários que explicam por que o código existe",
+        "C: Comentários que traduzem código para português",
+        "D: Comentários que descrevem cada linha"
+      ],
+      correctAnswer: 1
+    }
+  },
+  "comentario-3": {
+    id: "comentario-3",
+    name: "Evitando Comentários Desnecessários",
+    type: "code-error",
+    contentText: "Identifique comentários desnecessários",
+    codeErrorData: {
+      question: "Identifique os comentários desnecessários no código:",
+      codeSnippet: `// Função que calcula o total
+function calculateTotal(items) {
+  // Inicializa total com zero
+  let total = 0;
+  
+  // Loop pelos itens
+  for (let item of items) {
+    // Soma o preço ao total
+    total += item.price;
+  }
+  
+  // Retorna o total
+  return total;
+}`,
+      errorLines: [1, 3, 5, 7, 9],
+      explanation: "Os comentários nas linhas 1, 3, 5, 7 e 9 são desnecessários porque apenas repetem o que o código já deixa claro. O código é autoexplicativo e não precisa desses comentários óbvios."
+    }
+  },
+  "comentario-4": {
+    id: "comentario-4",
+    name: "Comentários de TODO",
+    type: "content",
+    contentText: "Comentários TODO são úteis para marcar código temporário ou melhorias futuras. Use-os com moderação e sempre inclua um prazo ou responsável. Exemplo: // TODO: Refatorar esta função até 15/12/2024 - João. Evite deixar TODOs antigos no código, pois podem se tornar 'lixo técnico'."
+  },
+  "comentario-5": {
+    id: "comentario-5",
+    name: "Documentação de Funções",
+    type: "question",
+    contentText: "Teste sobre documentação",
+    questionData: {
+      question: "Quando você deve documentar uma função?",
+      answers: [
+        "A: Sempre, mesmo para funções simples",
+        "B: Apenas para funções públicas ou complexas",
+        "C: Nunca, o código deve ser autoexplicativo",
+        "D: Apenas quando solicitado pelo chefe"
+      ],
+      correctAnswer: 1
+    }
+  },
+  "comentario-6": {
+    id: "comentario-6",
+    name: "Comentários de Bloco",
+    type: "content",
+    contentText: "Use comentários de bloco para explicar algoritmos complexos ou decisões arquiteturais importantes. Eles devem ser informativos e atualizados. Se o código mudar, atualize também os comentários. Comentários desatualizados são piores que nenhum comentário."
+  },
+  "formatacao-1": {
+    id: "formatacao-1",
+    name: "Introdução à Formatação",
+    type: "content",
+    contentText: "A formatação do código é fundamental para a legibilidade. Código bem formatado é mais fácil de ler, entender e manter. Use indentação consistente, espaçamento adequado e quebras de linha estratégicas. A formatação deve seguir um padrão consistente em todo o projeto."
+  },
+  "formatacao-2": {
+    id: "formatacao-2",
+    name: "Indentação Consistente",
+    type: "question",
+    contentText: "Teste sobre indentação",
+    questionData: {
+      question: "Qual é a melhor prática para indentação?",
+      answers: [
+        "A: Usar espaços e tabs misturados",
+        "B: Usar apenas espaços ou apenas tabs consistentemente",
+        "C: Não usar indentação",
+        "D: Usar quantos espaços quiser"
+      ],
+      correctAnswer: 1
+    }
+  },
+  "formatacao-3": {
+    id: "formatacao-3",
+    name: "Acerte o Erro - Formatação",
+    type: "code-error",
+    contentText: "Identifique problemas de formatação",
+    codeErrorData: {
+      question: "Identifique os problemas de formatação no código:",
+      codeSnippet: `function processUserData(user){
+let name=user.name;
+let email=user.email;
+let age=user.age;
+if(age>=18){
+console.log('Adulto');
+}else{
+console.log('Menor');
+}
+return{name,email,age};
+}`,
+      errorLines: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      explanation: "O código tem vários problemas de formatação: falta espaços após vírgulas e operadores, falta quebras de linha, indentação inconsistente. Código bem formatado é mais legível e profissional."
+    }
+  },
+  "formatacao-4": {
+    id: "formatacao-4",
+    name: "Quebras de Linha",
+    type: "content",
+    contentText: "Use quebras de linha para separar conceitos diferentes. Linhas muito longas (mais de 80-120 caracteres) devem ser quebradas. Quebre após vírgulas, operadores ou pontos lógicos. Mantenha relacionamentos visuais claros entre elementos relacionados."
+  },
+  "formatacao-5": {
+    id: "formatacao-5",
+    name: "Espaçamento",
+    type: "question",
+    contentText: "Teste sobre espaçamento",
+    questionData: {
+      question: "Onde você deve usar espaços em branco?",
+      answers: [
+        "A: Apenas no início das linhas",
+        "B: Ao redor de operadores e após vírgulas",
+        "C: Nunca usar espaços",
+        "D: Em qualquer lugar que parecer bom"
+      ],
+      correctAnswer: 1
+    }
+  },
+  "formatacao-6": {
+    id: "formatacao-6",
+    name: "Agrupamento Lógico",
+    type: "content",
+    contentText: "Agrupe linhas relacionadas e separe grupos diferentes com linhas em branco. Declarações de variáveis, imports, funções relacionadas devem estar próximas. Use linhas em branco para criar 'parágrafos' no código, facilitando a leitura e compreensão."
   }
 };
 
@@ -215,7 +362,7 @@ export function IslandPage() {
 
   const islandData = islandId ? islandsData[islandId] : null;
   const currentStatus = islandId ? getIslandStatus(islandId) : "locked";
-  const isLastIsland = islandId === 'ilha-7' || islandId === 'funcao-6';
+  const isLastIsland = islandId === 'ilha-7' || islandId === 'funcao-6' || islandId === 'comentario-6' || islandId === 'formatacao-6';
 
   useEffect(() => {
     if (!islandId || !islandData) {

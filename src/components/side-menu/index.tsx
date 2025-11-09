@@ -3,8 +3,8 @@ import { useState } from "react";
 import "./styles.scss";
 
 interface SideMenuProps {
-  currentSection: 'variables' | 'functions';
-  onSectionChange: (section: 'variables' | 'functions') => void;
+  currentSection: 'variables' | 'functions' | 'comments' | 'formatting';
+  onSectionChange: (section: 'variables' | 'functions' | 'comments' | 'formatting') => void;
   onMinimize?: (minimized: boolean) => void;
 }
 
@@ -25,6 +25,18 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
       name: 'Funções',
       icon: '⚔️',
       description: 'Funções pequenas e organizadas'
+    },
+    {
+      id: 'comments',
+      name: 'Comentários',
+      icon: '💬',
+      description: 'Documentação clara e útil'
+    },
+    {
+      id: 'formatting',
+      name: 'Formatação',
+      icon: '✨',
+      description: 'Código limpo e organizado'
     }
   ];
 
@@ -35,6 +47,18 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
       // Verifica se todas as ilhas de variáveis foram completadas
       const variablesIslands = islandProgress.filter(island => island.section === 'variables');
       return variablesIslands.every(island => island.status === 'completed');
+    }
+    
+    if (sectionId === 'comments') {
+      // Verifica se todas as ilhas de funções foram completadas
+      const functionsIslands = islandProgress.filter(island => island.section === 'functions');
+      return functionsIslands.every(island => island.status === 'completed');
+    }
+    
+    if (sectionId === 'formatting') {
+      // Verifica se todas as ilhas de comentários foram completadas
+      const commentsIslands = islandProgress.filter(island => island.section === 'comments');
+      return commentsIslands.every(island => island.status === 'completed');
     }
     
     return false;
@@ -106,7 +130,7 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
                   className={`menu-section ${isUnlocked ? 'unlocked' : 'locked'} ${isActive ? 'active' : ''}`}
                   onClick={() => {
                     if (isUnlocked) {
-                      onSectionChange(section.id as 'variables' | 'functions');
+                      onSectionChange(section.id as 'variables' | 'functions' | 'comments' | 'formatting');
                       setIsMenuOpen(false); // Fecha o menu em mobile
                     }
                   }}
@@ -145,7 +169,10 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
               <div className="completion-status">
                 <span className="status-icon">🏆</span>
                 <span className="status-text">
-                  {isSectionUnlocked('functions') ? 'Todas as trilhas desbloqueadas!' : 'Complete as variáveis para desbloquear funções'}
+                  {isSectionUnlocked('formatting') ? 'Todas as trilhas desbloqueadas!' : 
+                   isSectionUnlocked('comments') ? 'Complete os comentários para desbloquear formatação' :
+                   isSectionUnlocked('functions') ? 'Complete as funções para desbloquear comentários' :
+                   'Complete as variáveis para desbloquear funções'}
                 </span>
               </div>
             </div>

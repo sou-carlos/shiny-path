@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 
 interface IslandProgress {
   id: string;
   status: 'completed' | 'uncompleted' | 'locked';
-  section: 'variables' | 'functions';
+  section: 'variables' | 'functions' | 'comments' | 'formatting';
 }
 
 interface ProgressContextType {
@@ -12,7 +12,7 @@ interface ProgressContextType {
   unlockNextIsland: (currentIslandId: string) => void;
   completeIsland: (islandId: string) => void;
   getIslandStatus: (islandId: string) => 'completed' | 'uncompleted' | 'locked';
-  getCurrentSection: () => 'variables' | 'functions';
+  getCurrentSection: () => 'variables' | 'functions' | 'comments' | 'formatting';
 }
 
 const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
@@ -22,7 +22,7 @@ interface ProgressProviderProps {
 }
 
 export function ProgressProvider({ children }: ProgressProviderProps) {
-  // Estado inicial com duas seções: variáveis e funções
+  // Estado inicial com quatro seções: variáveis, funções, comentários e formatação
   const [islandProgress, setIslandProgress] = useState<IslandProgress[]>([
     // Seção Variáveis
     { id: 'ilha-1', status: 'uncompleted', section: 'variables' },
@@ -39,6 +39,20 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
     { id: 'funcao-4', status: 'locked', section: 'functions' },
     { id: 'funcao-5', status: 'locked', section: 'functions' },
     { id: 'funcao-6', status: 'locked', section: 'functions' },
+    // Seção Comentários
+    { id: 'comentario-1', status: 'locked', section: 'comments' },
+    { id: 'comentario-2', status: 'locked', section: 'comments' },
+    { id: 'comentario-3', status: 'locked', section: 'comments' },
+    { id: 'comentario-4', status: 'locked', section: 'comments' },
+    { id: 'comentario-5', status: 'locked', section: 'comments' },
+    { id: 'comentario-6', status: 'locked', section: 'comments' },
+    // Seção Formatação
+    { id: 'formatacao-1', status: 'locked', section: 'formatting' },
+    { id: 'formatacao-2', status: 'locked', section: 'formatting' },
+    { id: 'formatacao-3', status: 'locked', section: 'formatting' },
+    { id: 'formatacao-4', status: 'locked', section: 'formatting' },
+    { id: 'formatacao-5', status: 'locked', section: 'formatting' },
+    { id: 'formatacao-6', status: 'locked', section: 'formatting' },
   ]);
 
   const unlockNextIsland = (currentIslandId: string) => {
@@ -63,6 +77,22 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
         }
       }
 
+      // Se completou a última ilha de funções, desbloqueia a primeira ilha de comentários
+      if (currentIslandId === 'funcao-6') {
+        const firstCommentIndex = prev.findIndex(island => island.id === 'comentario-1');
+        if (firstCommentIndex !== -1) {
+          newProgress[firstCommentIndex] = { ...newProgress[firstCommentIndex], status: 'uncompleted' };
+        }
+      }
+
+      // Se completou a última ilha de comentários, desbloqueia a primeira ilha de formatação
+      if (currentIslandId === 'comentario-6') {
+        const firstFormattingIndex = prev.findIndex(island => island.id === 'formatacao-1');
+        if (firstFormattingIndex !== -1) {
+          newProgress[firstFormattingIndex] = { ...newProgress[firstFormattingIndex], status: 'uncompleted' };
+        }
+      }
+
       return newProgress;
     });
   };
@@ -82,12 +112,26 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
     return island?.status || 'locked';
   };
 
-  const getCurrentSection = (): 'variables' | 'functions' => {
+  const getCurrentSection = (): 'variables' | 'functions' | 'comments' | 'formatting' => {
     // Determina a seção atual baseada no progresso
     const variablesCompleted = islandProgress
       .filter(island => island.section === 'variables')
       .every(island => island.status === 'completed');
     
+    const functionsCompleted = islandProgress
+      .filter(island => island.section === 'functions')
+      .every(island => island.status === 'completed');
+    
+    const commentsCompleted = islandProgress
+      .filter(island => island.section === 'comments')
+      .every(island => island.status === 'completed');
+    
+    if (commentsCompleted) {
+      return 'formatting';
+    }
+    if (functionsCompleted) {
+      return 'comments';
+    }
     if (variablesCompleted) {
       return 'functions';
     }
