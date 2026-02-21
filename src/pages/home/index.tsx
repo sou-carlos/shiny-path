@@ -1,5 +1,6 @@
 import { Island } from "../../components/island";
 import { useProgress } from "../../lib/progress-context";
+import type { SectionType } from "../../lib/progress-context";
 import { GamificationStatus } from "../../components/gamification-status";
 import { SideMenu } from "../../components/side-menu";
 import { useState } from "react";
@@ -11,8 +12,45 @@ interface HomeProps {
 
 export function Home({ onMenuMinimize }: HomeProps) {
   const { islandProgress, getCurrentSection } = useProgress();
-  const [currentSection, setCurrentSection] = useState<'variables' | 'functions' | 'comments' | 'formatting'>(getCurrentSection());
+  const [currentSection, setCurrentSection] = useState<SectionType>(getCurrentSection());
   const [isMenuMinimized, setIsMenuMinimized] = useState(false);
+
+  const cleanCodeIslands = [
+    {
+      id: "codigo-limpo-1",
+      name: "O que é Código Limpo?",
+      type: "content" as const,
+      contentText: "Código Limpo (Clean Code) é uma filosofia de programação que prioriza a legibilidade, simplicidade e manutenibilidade do código. Popularizado por Robert C. Martin (Uncle Bob), o conceito defende que código deve ser escrito para ser facilmente entendido por humanos. Código limpo comunica claramente sua intenção, evita ambiguidades e facilita modificações."
+    },
+    {
+      id: "codigo-limpo-2",
+      name: "Por que o Código Limpo Importa?",
+      type: "content" as const,
+      contentText: "Programadores passam muito mais tempo lendo código do que escrevendo. Código mal escrito dificulta manutenção, introduz bugs e desperdiça tempo da equipe. Código limpo reduz custos de manutenção, acelera o início de novos desenvolvedores e torna o software mais confiável. É um investimento que se paga rapidamente."
+    },
+    {
+      id: "codigo-limpo-3",
+      name: "Princípios do Código Limpo",
+      type: "content" as const,
+      contentText: "Os pilares do código limpo incluem: nomes significativos (variáveis e funções que revelam intenção), funções pequenas e focadas, comentários úteis (não redundantes), e formatação consistente. Nesta trilha você explorará cada um desses temas em detalhes. O objetivo é transformar a escrita de código em uma arte de comunicação clara."
+    },
+    {
+      id: "codigo-limpo-4",
+      name: "Quiz: Você Entendeu?",
+      type: "question" as const,
+      contentText: "Teste seu entendimento sobre Código Limpo",
+      questionData: {
+        question: "Qual é o principal benefício do Código Limpo?",
+        answers: [
+          "A: O código executa mais rápido",
+          "B: O código é mais fácil de ler, entender e manter",
+          "C: O código ocupa menos espaço em disco",
+          "D: O código funciona em qualquer linguagem"
+        ],
+        correctAnswer: 1
+      }
+    }
+  ];
 
   const variablesIslands = [
     {
@@ -333,11 +371,14 @@ return{name,email,age};
     }
   ];
 
-  const currentIslands = currentSection === 'variables' ? variablesIslands : 
+  const currentIslands = currentSection === 'clean-code' ? cleanCodeIslands :
+                         currentSection === 'variables' ? variablesIslands : 
                          currentSection === 'functions' ? functionsIslands :
                          currentSection === 'comments' ? commentsIslands :
                          formattingIslands;
-  const sectionTitle = currentSection === 'variables' 
+  const sectionTitle = currentSection === 'clean-code'
+    ? "Trilha do Código Limpo"
+    : currentSection === 'variables' 
     ? "Trilha das Variáveis" 
     : currentSection === 'functions' 
     ? "Trilha das Funções"
@@ -345,7 +386,7 @@ return{name,email,age};
     ? "Trilha dos Comentários"
     : "Trilha da Formatação";
 
-  const handleSectionChange = (section: 'variables' | 'functions' | 'comments' | 'formatting') => {
+  const handleSectionChange = (section: SectionType) => {
     setCurrentSection(section);
   };
 

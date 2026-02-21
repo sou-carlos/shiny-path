@@ -1,10 +1,12 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 
+export type SectionType = 'clean-code' | 'variables' | 'functions' | 'comments' | 'formatting';
+
 interface IslandProgress {
   id: string;
   status: 'completed' | 'uncompleted' | 'locked';
-  section: 'variables' | 'functions' | 'comments' | 'formatting';
+  section: SectionType;
 }
 
 interface ProgressContextType {
@@ -12,7 +14,7 @@ interface ProgressContextType {
   unlockNextIsland: (currentIslandId: string) => void;
   completeIsland: (islandId: string) => void;
   getIslandStatus: (islandId: string) => 'completed' | 'uncompleted' | 'locked';
-  getCurrentSection: () => 'variables' | 'functions' | 'comments' | 'formatting';
+  getCurrentSection: () => SectionType;
 }
 
 const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
@@ -22,10 +24,15 @@ interface ProgressProviderProps {
 }
 
 export function ProgressProvider({ children }: ProgressProviderProps) {
-  // Estado inicial com quatro seções: variáveis, funções, comentários e formatação
+  // Estado inicial com cinco seções: código limpo (introdução), variáveis, funções, comentários e formatação
   const [islandProgress, setIslandProgress] = useState<IslandProgress[]>([
-    // Seção Variáveis
-    { id: 'ilha-1', status: 'uncompleted', section: 'variables' },
+    // Seção Código Limpo (introdução)
+    { id: 'codigo-limpo-1', status: 'uncompleted', section: 'clean-code' },
+    { id: 'codigo-limpo-2', status: 'locked', section: 'clean-code' },
+    { id: 'codigo-limpo-3', status: 'locked', section: 'clean-code' },
+    { id: 'codigo-limpo-4', status: 'locked', section: 'clean-code' },
+    // Seção Variáveis (desbloqueada ao completar código limpo)
+    { id: 'ilha-1', status: 'locked', section: 'variables' },
     { id: 'ilha-2', status: 'locked', section: 'variables' },
     { id: 'ilha-3', status: 'locked', section: 'variables' },
     { id: 'ilha-4', status: 'locked', section: 'variables' },
@@ -67,6 +74,14 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
       // Se não for a última ilha da seção atual, desbloqueia a próxima
       if (currentIndex < prev.length - 1) {
         newProgress[currentIndex + 1] = { ...newProgress[currentIndex + 1], status: 'uncompleted' };
+      }
+
+      // Se completou a última ilha de código limpo, desbloqueia a primeira ilha de variáveis
+      if (currentIslandId === 'codigo-limpo-4') {
+        const firstVariablesIndex = prev.findIndex(island => island.id === 'ilha-1');
+        if (firstVariablesIndex !== -1) {
+          newProgress[firstVariablesIndex] = { ...newProgress[firstVariablesIndex], status: 'uncompleted' };
+        }
       }
 
       // Se completou a última ilha de variáveis, desbloqueia a primeira ilha de funções
@@ -112,8 +127,12 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
     return island?.status || 'locked';
   };
 
-  const getCurrentSection = (): 'variables' | 'functions' | 'comments' | 'formatting' => {
+  const getCurrentSection = (): SectionType => {
     // Determina a seção atual baseada no progresso
+    const cleanCodeCompleted = islandProgress
+      .filter(island => island.section === 'clean-code')
+      .every(island => island.status === 'completed');
+    
     const variablesCompleted = islandProgress
       .filter(island => island.section === 'variables')
       .every(island => island.status === 'completed');
@@ -135,7 +154,10 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
     if (variablesCompleted) {
       return 'functions';
     }
-    return 'variables';
+    if (cleanCodeCompleted) {
+      return 'variables';
+    }
+    return 'clean-code';
   };
 
   return (

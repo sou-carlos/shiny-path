@@ -1,10 +1,11 @@
 import { useProgress } from "../../lib/progress-context";
+import type { SectionType } from "../../lib/progress-context";
 import { useState } from "react";
 import "./styles.scss";
 
 interface SideMenuProps {
-  currentSection: 'variables' | 'functions' | 'comments' | 'formatting';
-  onSectionChange: (section: 'variables' | 'functions' | 'comments' | 'formatting') => void;
+  currentSection: SectionType;
+  onSectionChange: (section: SectionType) => void;
   onMinimize?: (minimized: boolean) => void;
 }
 
@@ -15,25 +16,31 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
 
   const sections = [
     {
-      id: 'variables',
+      id: 'clean-code' as const,
+      name: 'Código Limpo',
+      icon: '🌟',
+      description: 'O que é e por que importa'
+    },
+    {
+      id: 'variables' as const,
       name: 'Variáveis',
       icon: '📦',
       description: 'Nomes significativos e boas práticas'
     },
     {
-      id: 'functions',
+      id: 'functions' as const,
       name: 'Funções',
       icon: '⚔️',
       description: 'Funções pequenas e organizadas'
     },
     {
-      id: 'comments',
+      id: 'comments' as const,
       name: 'Comentários',
       icon: '💬',
       description: 'Documentação clara e útil'
     },
     {
-      id: 'formatting',
+      id: 'formatting' as const,
       name: 'Formatação',
       icon: '✨',
       description: 'Código limpo e organizado'
@@ -41,7 +48,13 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
   ];
 
   const isSectionUnlocked = (sectionId: string) => {
-    if (sectionId === 'variables') return true; // Sempre desbloqueada
+    if (sectionId === 'clean-code') return true; // Sempre desbloqueada
+    
+    if (sectionId === 'variables') {
+      // Verifica se todas as ilhas de código limpo foram completadas
+      const cleanCodeIslands = islandProgress.filter(island => island.section === 'clean-code');
+      return cleanCodeIslands.every(island => island.status === 'completed');
+    }
     
     if (sectionId === 'functions') {
       // Verifica se todas as ilhas de variáveis foram completadas
@@ -130,7 +143,7 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
                   className={`menu-section ${isUnlocked ? 'unlocked' : 'locked'} ${isActive ? 'active' : ''}`}
                   onClick={() => {
                     if (isUnlocked) {
-                      onSectionChange(section.id as 'variables' | 'functions' | 'comments' | 'formatting');
+                      onSectionChange(section.id as SectionType);
                       setIsMenuOpen(false); // Fecha o menu em mobile
                     }
                   }}
@@ -172,7 +185,8 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
                   {isSectionUnlocked('formatting') ? 'Todas as trilhas desbloqueadas!' : 
                    isSectionUnlocked('comments') ? 'Complete os comentários para desbloquear formatação' :
                    isSectionUnlocked('functions') ? 'Complete as funções para desbloquear comentários' :
-                   'Complete as variáveis para desbloquear funções'}
+                   isSectionUnlocked('variables') ? 'Complete as variáveis para desbloquear funções' :
+                   'Complete o Código Limpo para desbloquear variáveis'}
                 </span>
               </div>
             </div>

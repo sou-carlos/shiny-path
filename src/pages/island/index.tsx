@@ -24,6 +24,43 @@ interface IslandData {
 }
 
 const islandsData: Record<string, IslandData> = {
+  "codigo-limpo-1": {
+    id: "codigo-limpo-1",
+    name: "O que é Código Limpo?",
+    type: "content",
+    contentText:
+      "Código Limpo (Clean Code) é uma filosofia de programação que prioriza a legibilidade, simplicidade e manutenibilidade do código. Popularizado por Robert C. Martin (Uncle Bob), o conceito defende que código deve ser escrito para ser facilmente entendido por humanos. Código limpo comunica claramente sua intenção, evita ambiguidades e facilita modificações.",
+  },
+  "codigo-limpo-2": {
+    id: "codigo-limpo-2",
+    name: "Por que o Código Limpo Importa?",
+    type: "content",
+    contentText:
+      "Programadores passam muito mais tempo lendo código do que escrevendo. Código mal escrito dificulta manutenção, introduz bugs e desperdiça tempo da equipe. Código limpo reduz custos de manutenção, acelera o início de novos desenvolvedores e torna o software mais confiável. É um investimento que se paga rapidamente.",
+  },
+  "codigo-limpo-3": {
+    id: "codigo-limpo-3",
+    name: "Princípios do Código Limpo",
+    type: "content",
+    contentText:
+      "Os pilares do código limpo incluem: nomes significativos (variáveis e funções que revelam intenção), funções pequenas e focadas, comentários úteis (não redundantes), e formatação consistente. Nesta trilha você explorará cada um desses temas em detalhes. O objetivo é transformar a escrita de código em uma arte de comunicação clara.",
+  },
+  "codigo-limpo-4": {
+    id: "codigo-limpo-4",
+    name: "Quiz: Você Entendeu?",
+    type: "question",
+    contentText: "Teste seu entendimento sobre Código Limpo",
+    questionData: {
+      question: "Qual é o principal benefício do Código Limpo?",
+      answers: [
+        "A: O código executa mais rápido",
+        "B: O código é mais fácil de ler, entender e manter",
+        "C: O código ocupa menos espaço em disco",
+        "D: O código funciona em qualquer linguagem",
+      ],
+      correctAnswer: 1,
+    },
+  },
   "ilha-1": {
     id: "ilha-1",
     name: "Introdução às Variáveis",
