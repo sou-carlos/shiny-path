@@ -403,7 +403,7 @@ return{name,email,age};
         onMinimize={handleMenuMinimize}
       />
       <GamificationStatus />
-      <h1 className="home-title">Bem vindo a trilha do código limpo!</h1>
+      <h1 className="home-title">Bem-vindo/Bem-vinda a trilha do código limpo!</h1>
       <h2 className="section-title">{sectionTitle}</h2>
       
       <div className="islands-grid">

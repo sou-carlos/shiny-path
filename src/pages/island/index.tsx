@@ -424,6 +424,18 @@ export function IslandPage() {
     }
   }, [islandId, islandData, navigate]);
 
+  // Se o usuário tem 0 vidas e está em uma ilha de pergunta ou code-error, mostra Game Over
+  // (evita bypass fechando e reabrindo a ilha para tentar de novo indefinidamente)
+  useEffect(() => {
+    if (
+      islandData &&
+      (islandData.type === "question" || islandData.type === "code-error") &&
+      !canContinue
+    ) {
+      setShowGameOver(true);
+    }
+  }, [islandData, canContinue]);
+
   if (!islandData) {
     return (
       <div className="island-page">
@@ -623,7 +635,7 @@ export function IslandPage() {
                   {!isLastIsland ? (
                     <div className="unlock-message">
                       <span className="icon">🔓</span>
-                      <span className="text">Próxima ilha desbloqueada!</span>
+                      <span className="text">Próxima trilha desbloqueada!</span>
                     </div>
                   ) : (
                     <div className="unlock-message">
@@ -694,7 +706,7 @@ export function IslandPage() {
                     {!isLastIsland ? (
                       <div className="unlock-message">
                         <span className="icon">🔓</span>
-                        <span className="text">Próxima ilha desbloqueada!</span>
+                        <span className="text">Próxima trilha desbloqueada!</span>
                       </div>
                     ) : (
                       <div className="unlock-message">
@@ -809,7 +821,7 @@ export function IslandPage() {
                     {!isLastIsland ? (
                       <div className="unlock-message">
                         <span className="icon">🔓</span>
-                        <span className="text">Próxima ilha desbloqueada!</span>
+                        <span className="text">Próxima trilha desbloqueada!</span>
                       </div>
                     ) : (
                       <div className="unlock-message">
