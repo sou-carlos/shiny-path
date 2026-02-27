@@ -71,6 +71,51 @@
   z-index: 1;
 }
 
+.credits-section {
+  max-width: 600px;
+  width: 100%;
+  margin: 120px auto 40px;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.credits-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.credits-logo {
+  max-height: 200px;
+  width: auto;
+  object-fit: contain;
+}
+
+.credits-text {
+  text-align: center;
+}
+
+.credits-institution {
+  color: #1f2937;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+.credits-campus {
+  color: #6b7280;
+  font-size: 1rem;
+  margin: 0;
+}
+
 // Animações minimalistas
 @keyframes fadeInUp {
   from {

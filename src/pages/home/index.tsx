@@ -4,6 +4,7 @@ import type { SectionType } from "../../lib/progress-context";
 import { GamificationStatus } from "../../components/gamification-status";
 import { SideMenu } from "../../components/side-menu";
 import { useState } from "react";
+import ifbaLogo from "../../assets/ifba-vertical.jpg";
 import "./styles.scss";
 
 interface HomeProps {
@@ -375,7 +376,7 @@ return{name,email,age};
                          currentSection === 'variables' ? variablesIslands : 
                          currentSection === 'functions' ? functionsIslands :
                          currentSection === 'comments' ? commentsIslands :
-                         formattingIslands;
+                         currentSection === 'formatting' ? formattingIslands : [];
   const sectionTitle = currentSection === 'clean-code'
     ? "Trilha do Código Limpo"
     : currentSection === 'variables' 
@@ -384,7 +385,9 @@ return{name,email,age};
     ? "Trilha das Funções"
     : currentSection === 'comments'
     ? "Trilha dos Comentários"
-    : "Trilha da Formatação";
+    : currentSection === 'formatting'
+    ? "Trilha da Formatação"
+    : "Créditos";
 
   const handleSectionChange = (section: SectionType) => {
     setCurrentSection(section);
@@ -406,20 +409,36 @@ return{name,email,age};
       <h1 className="home-title">Bem-vindo/Bem-vinda a trilha do código limpo!</h1>
       <h2 className="section-title">{sectionTitle}</h2>
       
-      <div className="islands-grid">
-        {currentIslands.map((island) => (
-          <Island
-            key={island.id}
-            id={island.id}
-            status={islandProgress.find(i => i.id === island.id)?.status || "locked"}
-            name={island.name}
-            type={island.type}
-            contentText={island.contentText}
-            questionData={island.type === 'question' ? island.questionData : undefined}
-            codeErrorData={island.type === 'code-error' ? island.codeErrorData : undefined}
-          />
-        ))}
-      </div>
+      {currentSection === 'credits' ? (
+        <div className="credits-section">
+          <div className="credits-card">
+            <img
+              src={ifbaLogo}
+              alt="Instituto Federal da Bahia - Campus Jacobina"
+              className="credits-logo"
+            />
+            <div className="credits-text">
+              <h3 className="credits-institution">Instituto Federal de Educação, Ciência e Tecnologia da Bahia</h3>
+              <p className="credits-campus">Campus Jacobina</p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="islands-grid">
+          {currentIslands.map((island) => (
+            <Island
+              key={island.id}
+              id={island.id}
+              status={islandProgress.find(i => i.id === island.id)?.status || "locked"}
+              name={island.name}
+              type={island.type}
+              contentText={island.contentText}
+              questionData={island.type === 'question' ? island.questionData : undefined}
+              codeErrorData={island.type === 'code-error' ? island.codeErrorData : undefined}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

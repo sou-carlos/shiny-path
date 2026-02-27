@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 
-export type SectionType = 'clean-code' | 'variables' | 'functions' | 'comments' | 'formatting';
+export type SectionType = 'clean-code' | 'variables' | 'functions' | 'comments' | 'formatting' | 'credits';
 
 interface IslandProgress {
   id: string;

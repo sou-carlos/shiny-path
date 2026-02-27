@@ -44,11 +44,17 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
       name: 'Formatação',
       icon: '✨',
       description: 'Código limpo e organizado'
+    },
+    {
+      id: 'credits' as const,
+      name: 'Créditos',
+      icon: '🎓',
+      description: 'Instituto Federal da Bahia'
     }
   ];
 
   const isSectionUnlocked = (sectionId: string) => {
-    if (sectionId === 'clean-code') return true; // Sempre desbloqueada
+    if (sectionId === 'clean-code' || sectionId === 'credits') return true; // Sempre desbloqueadas
     
     if (sectionId === 'variables') {
       // Verifica se todas as ilhas de código limpo foram completadas
@@ -78,10 +84,11 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
   };
 
   const getSectionProgress = (sectionId: string) => {
+    if (sectionId === 'credits') return { completed: 0, total: 0, percentage: 0 }; // Créditos não tem progresso
     const sectionIslands = islandProgress.filter(island => island.section === sectionId);
     const completed = sectionIslands.filter(island => island.status === 'completed').length;
     const total = sectionIslands.length;
-    return { completed, total, percentage: Math.round((completed / total) * 100) };
+    return { completed, total, percentage: total ? Math.round((completed / total) * 100) : 0 };
   };
 
   const toggleMenu = () => {
@@ -159,7 +166,7 @@ export function SideMenu({ currentSection, onSectionChange, onMinimize }: SideMe
                       <h4 className="section-name">{section.name}</h4>
                       <p className="section-description">{section.description}</p>
                       
-                      {isUnlocked && (
+                      {isUnlocked && section.id !== 'credits' && progress.total > 0 && (
                         <div className="progress-bar">
                           <div 
                             className="progress-fill" 
