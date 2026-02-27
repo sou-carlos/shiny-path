@@ -263,8 +263,8 @@ function calculateTotal(items) {
   // Retorna o total
   return total;
 }`,
-        errorLines: [1, 3, 5, 7, 9],
-        explanation: "Os comentários nas linhas 1, 3, 5, 7 e 9 são desnecessários porque apenas repetem o que o código já deixa claro. O código é autoexplicativo e não precisa desses comentários óbvios."
+        errorLines: [1, 3, 6, 8, 12],
+        explanation: "Os comentários nas linhas 1, 3, 6, 8 e 12 são desnecessários porque apenas repetem o que o código já deixa claro. O código é autoexplicativo e não precisa desses comentários óbvios."
       }
     },
     {
@@ -338,7 +338,7 @@ console.log('Menor');
 }
 return{name,email,age};
 }`,
-        errorLines: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        errorLines: [2, 3, 4, 5, 6, 7, 8, 9, 10],
         explanation: "O código tem vários problemas de formatação: falta espaços após vírgulas e operadores, falta quebras de linha, indentação inconsistente. Código bem formatado é mais legível e profissional."
       }
     },

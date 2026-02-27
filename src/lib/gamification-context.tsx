@@ -35,7 +35,7 @@ interface GamificationProviderProps {
 export function GamificationProvider({ children }: GamificationProviderProps) {
   const [gamificationState, setGamificationState] = useState<GamificationState>(
     {
-      lives: 3,
+      lives: 5,
       points: 0,
       streak: 0,
       maxStreak: 0,
