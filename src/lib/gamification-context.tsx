@@ -22,6 +22,7 @@ interface GamificationContextType {
   unlockAchievement: (achievement: string) => void;
   canContinue: boolean;
   getAccuracy: () => number;
+  resetGame: () => void;
 }
 
 const GamificationContext = createContext<GamificationContextType | undefined>(
@@ -33,17 +34,18 @@ interface GamificationProviderProps {
 }
 
 export function GamificationProvider({ children }: GamificationProviderProps) {
-  const [gamificationState, setGamificationState] = useState<GamificationState>(
-    {
-      lives: 5,
-      points: 0,
-      streak: 0,
-      maxStreak: 0,
-      totalCorrect: 0,
-      totalAttempts: 0,
-      achievements: [],
-    }
-  );
+  const initialState: GamificationState = {
+    lives: 5,
+    points: 0,
+    streak: 0,
+    maxStreak: 0,
+    totalCorrect: 0,
+    totalAttempts: 0,
+    achievements: [],
+  };
+
+  const [gamificationState, setGamificationState] =
+    useState<GamificationState>(initialState);
 
   const loseLife = () => {
     setGamificationState((prev) => ({
@@ -106,6 +108,10 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
     );
   };
 
+  const resetGame = () => {
+    setGamificationState(initialState);
+  };
+
   return (
     <GamificationContext.Provider
       value={{
@@ -119,6 +125,7 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
         unlockAchievement,
         canContinue,
         getAccuracy,
+        resetGame,
       }}
     >
       {children}

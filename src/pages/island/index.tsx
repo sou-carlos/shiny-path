@@ -395,7 +395,7 @@ export function IslandPage() {
   const [isCodeErrorAnswered, setIsCodeErrorAnswered] = useState(false);
   const [isCodeErrorCorrect, setIsCodeErrorCorrect] = useState(false);
 
-  const { unlockNextIsland } = useProgress();
+  const { unlockNextIsland, resetProgress } = useProgress();
   const {
     loseLife,
     gainPoints,
@@ -406,6 +406,7 @@ export function IslandPage() {
     unlockAchievement,
     canContinue,
     gamificationState,
+    resetGame,
   } = useGamification();
 
   const { playSuccessSound, playErrorSound } = useSound();
@@ -563,7 +564,9 @@ export function IslandPage() {
   }
 
   function handleRestartGame() {
-    window.location.reload();
+    resetGame();
+    resetProgress();
+    navigate("/");
   }
 
   return (

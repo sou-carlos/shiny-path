@@ -15,6 +15,7 @@ interface ProgressContextType {
   completeIsland: (islandId: string) => void;
   getIslandStatus: (islandId: string) => 'completed' | 'uncompleted' | 'locked';
   getCurrentSection: () => SectionType;
+  resetProgress: () => void;
 }
 
 const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
@@ -24,8 +25,7 @@ interface ProgressProviderProps {
 }
 
 export function ProgressProvider({ children }: ProgressProviderProps) {
-  // Estado inicial com cinco seções: código limpo (introdução), variáveis, funções, comentários e formatação
-  const [islandProgress, setIslandProgress] = useState<IslandProgress[]>([
+  const initialProgress: IslandProgress[] = [
     // Seção Código Limpo (introdução)
     { id: 'codigo-limpo-1', status: 'uncompleted', section: 'clean-code' },
     { id: 'codigo-limpo-2', status: 'locked', section: 'clean-code' },
@@ -60,7 +60,11 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
     { id: 'formatacao-4', status: 'locked', section: 'formatting' },
     { id: 'formatacao-5', status: 'locked', section: 'formatting' },
     { id: 'formatacao-6', status: 'locked', section: 'formatting' },
-  ]);
+  ];
+
+  // Estado inicial com cinco seções: código limpo (introdução), variáveis, funções, comentários e formatação
+  const [islandProgress, setIslandProgress] =
+    useState<IslandProgress[]>(initialProgress);
 
   const unlockNextIsland = (currentIslandId: string) => {
     setIslandProgress(prev => {
@@ -160,6 +164,10 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
     return 'clean-code';
   };
 
+  const resetProgress = () => {
+    setIslandProgress(initialProgress);
+  };
+
   return (
     <ProgressContext.Provider value={{
       islandProgress,
@@ -167,6 +175,7 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
       completeIsland,
       getIslandStatus,
       getCurrentSection,
+      resetProgress,
     }}>
       {children}
     </ProgressContext.Provider>
