@@ -15,6 +15,7 @@ interface ProgressContextType {
   completeIsland: (islandId: string) => void;
   getIslandStatus: (islandId: string) => 'completed' | 'uncompleted' | 'locked';
   getCurrentSection: () => SectionType;
+  resetTrail: (islandId: string) => void;
   resetProgress: () => void;
 }
 
@@ -164,6 +165,22 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
     return 'clean-code';
   };
 
+  const resetTrail = (islandId: string) => {
+    setIslandProgress(prev => {
+      const trail = prev.find(island => island.id === islandId)?.section;
+      if (!trail) return prev;
+
+      let isFirstIslandInTrail = true;
+      return prev.map(island => {
+        if (island.section !== trail) return island;
+
+        const status = isFirstIslandInTrail ? 'uncompleted' : 'locked';
+        isFirstIslandInTrail = false;
+        return { ...island, status };
+      });
+    });
+  };
+
   const resetProgress = () => {
     setIslandProgress(initialProgress);
   };
@@ -175,6 +192,7 @@ export function ProgressProvider({ children }: ProgressProviderProps) {
       completeIsland,
       getIslandStatus,
       getCurrentSection,
+      resetTrail,
       resetProgress,
     }}>
       {children}
@@ -188,4 +206,4 @@ export function useProgress() {
     throw new Error('useProgress must be used within a ProgressProvider');
   }
   return context;
-} 
+}

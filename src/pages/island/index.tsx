@@ -395,9 +395,10 @@ export function IslandPage() {
   const [isCodeErrorAnswered, setIsCodeErrorAnswered] = useState(false);
   const [isCodeErrorCorrect, setIsCodeErrorCorrect] = useState(false);
 
-  const { unlockNextIsland, resetProgress } = useProgress();
+  const { unlockNextIsland, getIslandStatus, resetTrail } = useProgress();
   const {
     loseLife,
+    gainLives,
     gainPoints,
     resetStreak,
     incrementStreak,
@@ -406,7 +407,7 @@ export function IslandPage() {
     unlockAchievement,
     canContinue,
     gamificationState,
-    resetGame,
+    resumeFromLastTrail,
   } = useGamification();
 
   const { playSuccessSound, playErrorSound } = useSound();
@@ -414,10 +415,24 @@ export function IslandPage() {
   const islandData = islandId ? islandsData[islandId] : null;
   // const currentStatus = islandId ? getIslandStatus(islandId) : "locked";
   const isLastIsland =
+    islandId === "codigo-limpo-4" ||
     islandId === "ilha-7" ||
     islandId === "funcao-6" ||
     islandId === "comentario-6" ||
     islandId === "formatacao-6";
+
+  function completeIsland() {
+    if (!islandData) return;
+
+    const wasAlreadyCompleted = getIslandStatus(islandData.id) === "completed";
+    unlockNextIsland(islandData.id);
+
+    // A recompensa é concedida somente na primeira conclusão da última ilha
+    // de cada trilha, evitando que uma trilha já concluída gere vidas extras.
+    if (isLastIsland && !wasAlreadyCompleted) {
+      gainLives(2);
+    }
+  }
 
   useEffect(() => {
     if (!islandId || !islandData) {
@@ -495,7 +510,7 @@ export function IslandPage() {
         const totalPoints = basePoints + streakBonus;
         gainPoints(totalPoints);
 
-        unlockNextIsland(islandData.id);
+        completeIsland();
 
         if (gamificationState.streak >= 3) {
           unlockAchievement("🔥 Streak Master");
@@ -535,7 +550,7 @@ export function IslandPage() {
         const totalPoints = basePoints + streakBonus;
         gainPoints(totalPoints);
 
-        unlockNextIsland(islandData.id);
+        completeIsland();
 
         if (gamificationState.streak >= 3) {
           unlockAchievement("🔥 Streak Master");
@@ -560,12 +575,12 @@ export function IslandPage() {
     playSuccessSound();
     gainPoints(5);
     incrementStreak();
-    unlockNextIsland(islandData!.id);
+    completeIsland();
   }
 
   function handleRestartGame() {
-    resetGame();
-    resetProgress();
+    resetTrail(islandData!.id);
+    resumeFromLastTrail();
     navigate("/");
   }
 
@@ -585,7 +600,7 @@ export function IslandPage() {
               <div className="game-over-icon">💔</div>
               <h3 className="game-over-title">Game Over!</h3>
               <p className="game-over-message">
-                Você perdeu todas as vidas. Mas não desista!
+                Você perdeu todas as vidas. A trilha será reiniciada com 2 vidas!
               </p>
               <div className="game-over-stats">
                 <div className="stat">
@@ -609,7 +624,7 @@ export function IslandPage() {
                 </div>
               </div>
               <button onClick={handleRestartGame} className="restart-button">
-                Jogar Novamente
+                Reiniciar trilha
               </button>
             </div>
           </div>
@@ -867,8 +882,8 @@ export function IslandPage() {
 
       <div className="island-footer">
         {showGameOver ? (
-          <button onClick={() => navigate("/")} className="close-button">
-            Fechar
+          <button onClick={handleRestartGame} className="close-button">
+            Reiniciar trilha
           </button>
         ) : islandData.type === "content" ? (
           !isContentCompleted ? (

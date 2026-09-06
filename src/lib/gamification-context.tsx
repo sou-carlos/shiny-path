@@ -14,6 +14,7 @@ interface GamificationState {
 interface GamificationContextType {
   gamificationState: GamificationState;
   loseLife: () => void;
+  gainLives: (lives: number) => void;
   gainPoints: (points: number) => void;
   resetStreak: () => void;
   incrementStreak: () => void;
@@ -22,7 +23,7 @@ interface GamificationContextType {
   unlockAchievement: (achievement: string) => void;
   canContinue: boolean;
   getAccuracy: () => number;
-  resetGame: () => void;
+  resumeFromLastTrail: () => void;
 }
 
 const GamificationContext = createContext<GamificationContextType | undefined>(
@@ -51,6 +52,13 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
     setGamificationState((prev) => ({
       ...prev,
       lives: Math.max(0, prev.lives - 1),
+    }));
+  };
+
+  const gainLives = (lives: number) => {
+    setGamificationState((prev) => ({
+      ...prev,
+      lives: Math.min(5, prev.lives + lives),
     }));
   };
 
@@ -108,8 +116,12 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
     );
   };
 
-  const resetGame = () => {
-    setGamificationState(initialState);
+  const resumeFromLastTrail = () => {
+    setGamificationState((prev) => ({
+      ...prev,
+      lives: 2,
+      streak: 0,
+    }));
   };
 
   return (
@@ -117,6 +129,7 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
       value={{
         gamificationState,
         loseLife,
+        gainLives,
         gainPoints,
         resetStreak,
         incrementStreak,
@@ -125,7 +138,7 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
         unlockAchievement,
         canContinue,
         getAccuracy,
-        resetGame,
+        resumeFromLastTrail,
       }}
     >
       {children}
