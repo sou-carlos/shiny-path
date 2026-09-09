@@ -1,54 +1,70 @@
-# React + TypeScript + Vite
+# Shiny Path
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma interativa para aprender Clean Code por meio de trilhas, ilhas de conteúdo, quizzes e desafios práticos.
 
-Currently, two official plugins are available:
+## Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Apresentação inicial com o mascote Scot, exibida uma única vez por navegador.
+- Cinco trilhas progressivas: Código Limpo, Variáveis, Funções, Comentários e Formatação.
+- Ilhas de conteúdo, perguntas de múltipla escolha e desafios de análise de código.
+- Sistema de vidas, pontos, streaks e conquistas.
+- Mostruário de medalhas: cada trilha concluída libera uma medalha.
+- Menu lateral com desbloqueio progressivo e acompanhamento da evolução.
+- Seção de créditos do projeto e do IFBA Campus Jacobina.
 
-## Expanding the ESLint configuration
+## Tecnologias
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19 + TypeScript
+- Vite
+- React Router
+- Sass
+- Tailwind CSS
+- Radix Dialog
+- Lucide React
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Como executar
+
+Pré-requisitos: Node.js e npm.
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Para gerar a versão de produção:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm run build
+npm run preview
 ```
+
+Para verificar o código com ESLint:
+
+```bash
+npm run lint
+```
+
+## Estrutura principal
+
+```text
+src/
+├── components/        # Header, menu, ilhas, mostruário e apresentação
+├── data/trails.ts     # Fonte única dos dados das trilhas e ilhas
+├── lib/               # Contextos de progresso, gamificação e áudio
+├── pages/home/        # Mapa principal das trilhas
+└── pages/island/      # Experiência de cada ilha
+public/scot/           # Mascote da plataforma
+```
+
+Os textos, perguntas, desafios e a ordem das ilhas ficam centralizados em [`src/data/trails.ts`](src/data/trails.ts). Para criar ou alterar uma ilha, edite esse arquivo e mantenha o respectivo identificador no mapa da trilha.
+
+## Progressão
+
+O usuário começa pela trilha de Código Limpo. Ao concluir todas as ilhas de uma trilha, a próxima é desbloqueada e uma medalha é adicionada ao mostruário. A conclusão da apresentação e as medalhas são salvas no `localStorage` do navegador.
+
+## Créditos
+
+Instituto Federal de Educação, Ciência e Tecnologia da Bahia — Campus Jacobina.
+
+- Carlos Eduardo de Souza — Licenciado em Computação (IFBA)
+- Profa. Dra. Vanessa dos Santos Rios — Docente do IFBA
