@@ -1,0 +1,187 @@
+.welcome-screen {
+  align-items: center;
+  background: #111827;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 28px;
+  position: relative;
+}
+
+.welcome-screen__glow {
+  border-radius: 50%;
+  filter: blur(8px);
+  opacity: 0.7;
+  position: absolute;
+}
+
+.welcome-screen__glow--one {
+  background: #6d5dfc;
+  height: 480px;
+  left: -180px;
+  top: -220px;
+  width: 480px;
+}
+
+.welcome-screen__glow--two {
+  background: #0ea5a8;
+  bottom: -250px;
+  height: 460px;
+  right: -140px;
+  width: 460px;
+}
+
+.welcome-card {
+  background: rgba(30, 41, 59, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 32px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.3);
+  display: grid;
+  gap: 36px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+  max-width: 1000px;
+  min-height: 520px;
+  overflow: hidden;
+  padding: 58px 60px;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.welcome-skip {
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.86rem;
+  padding: 6px;
+  position: absolute;
+  right: 26px;
+  top: 22px;
+}
+
+.welcome-skip:hover { color: #fff; }
+
+.welcome-copy { align-self: center; }
+
+.welcome-brand {
+  align-items: center;
+  color: #c4b5fd;
+  display: flex;
+  font-size: 0.98rem;
+  font-weight: 700;
+  gap: 8px;
+  letter-spacing: 0.02em;
+}
+
+.welcome-eyebrow {
+  color: #5eead4;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 42px 0 12px;
+  text-transform: uppercase;
+}
+
+.welcome-copy h1 {
+  font-size: clamp(2.25rem, 4vw, 3.7rem);
+  letter-spacing: -0.055em;
+  line-height: 1.03;
+  margin: 0;
+  max-width: 540px;
+}
+
+.welcome-description {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  line-height: 1.65;
+  margin: 22px 0 42px;
+  max-width: 500px;
+}
+
+.welcome-footer { align-items: center; display: flex; gap: 24px; }
+
+.welcome-progress { display: flex; gap: 7px; }
+
+.welcome-progress span {
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 10px;
+  display: block;
+  height: 7px;
+  transition: all 0.25s ease;
+  width: 7px;
+}
+
+.welcome-progress .is-active { background: #5eead4; width: 25px; }
+
+.welcome-action {
+  align-items: center;
+  background: #5eead4;
+  border: 0;
+  border-radius: 12px;
+  color: #0f172a;
+  display: inline-flex;
+  font-weight: 800;
+  gap: 10px;
+  padding: 13px 18px;
+}
+
+.welcome-action:hover { background: #99f6e4; border-color: transparent; }
+
+.welcome-mascot {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 380px;
+  position: relative;
+}
+
+.welcome-mascot__halo {
+  background: radial-gradient(circle, #fbbf24 0%, #f59e0b 28%, rgba(245, 158, 11, 0) 68%);
+  border-radius: 50%;
+  height: 330px;
+  opacity: 0.3;
+  position: absolute;
+  width: 330px;
+}
+
+.welcome-mascot img {
+  filter: drop-shadow(0 20px 20px rgba(0, 0, 0, 0.28));
+  max-height: 430px;
+  max-width: 100%;
+  object-fit: contain;
+  position: relative;
+  transform: rotate(-3deg);
+}
+
+.welcome-mascot__badge {
+  background: #fff;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.17);
+  color: #4338ca;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 9px 14px;
+  position: absolute;
+  right: 5%;
+  top: 15%;
+  transform: rotate(8deg);
+}
+
+@media (max-width: 720px) {
+  .welcome-screen { align-items: flex-start; padding: 16px; }
+  .welcome-card { display: flex; flex-direction: column-reverse; gap: 0; min-height: calc(100vh - 32px); padding: 54px 28px 34px; }
+  .welcome-mascot { min-height: 235px; }
+  .welcome-mascot img { max-height: 275px; }
+  .welcome-mascot__halo { height: 230px; width: 230px; }
+  .welcome-mascot__badge { right: 10%; top: 8%; }
+  .welcome-eyebrow { margin-top: 18px; }
+  .welcome-description { font-size: 1rem; margin-bottom: 30px; }
+}
+
+@media (max-width: 390px) {
+  .welcome-card { padding-left: 22px; padding-right: 22px; }
+  .welcome-footer { align-items: flex-start; flex-direction: column-reverse; gap: 18px; }
+}

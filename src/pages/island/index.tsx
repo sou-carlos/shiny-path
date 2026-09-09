@@ -383,6 +383,14 @@ return{name,email,age};
   },
 };
 
+const TRAIL_MEDALS: Record<string, string> = {
+  "codigo-limpo-4": "clean-code",
+  "ilha-7": "variables",
+  "funcao-6": "functions",
+  "comentario-6": "comments",
+  "formatacao-6": "formatting",
+};
+
 export function IslandPage() {
   const { islandId } = useParams<{ islandId: string }>();
   const navigate = useNavigate();
@@ -405,6 +413,7 @@ export function IslandPage() {
     addAttempt,
     addCorrect,
     unlockAchievement,
+    unlockMedal,
     canContinue,
     gamificationState,
     resumeFromLastTrail,
@@ -431,6 +440,7 @@ export function IslandPage() {
     // de cada trilha, evitando que uma trilha já concluída gere vidas extras.
     if (isLastIsland && !wasAlreadyCompleted) {
       gainLives(2);
+      unlockMedal(TRAIL_MEDALS[islandData.id]);
     }
   }
 

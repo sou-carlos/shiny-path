@@ -9,6 +9,7 @@ interface GamificationState {
   totalCorrect: number;
   totalAttempts: number;
   achievements: string[];
+  medals: string[];
 }
 
 interface GamificationContextType {
@@ -21,6 +22,7 @@ interface GamificationContextType {
   addAttempt: () => void;
   addCorrect: () => void;
   unlockAchievement: (achievement: string) => void;
+  unlockMedal: (medalId: string) => void;
   canContinue: boolean;
   getAccuracy: () => number;
   resumeFromLastTrail: () => void;
@@ -35,6 +37,16 @@ interface GamificationProviderProps {
 }
 
 export function GamificationProvider({ children }: GamificationProviderProps) {
+  const MEDALS_STORAGE_KEY = "shiny-path-medals";
+  const getSavedMedals = () => {
+    try {
+      const savedMedals = localStorage.getItem(MEDALS_STORAGE_KEY);
+      return savedMedals ? (JSON.parse(savedMedals) as string[]) : [];
+    } catch {
+      return [];
+    }
+  };
+
   const initialState: GamificationState = {
     lives: 5,
     points: 0,
@@ -43,6 +55,7 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
     totalCorrect: 0,
     totalAttempts: 0,
     achievements: [],
+    medals: getSavedMedals(),
   };
 
   const [gamificationState, setGamificationState] =
@@ -107,6 +120,16 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
     }));
   };
 
+  const unlockMedal = (medalId: string) => {
+    setGamificationState((prev) => {
+      if (prev.medals.includes(medalId)) return prev;
+
+      const medals = [...prev.medals, medalId];
+      localStorage.setItem(MEDALS_STORAGE_KEY, JSON.stringify(medals));
+      return { ...prev, medals };
+    });
+  };
+
   const canContinue = gamificationState.lives > 0;
 
   const getAccuracy = () => {
@@ -136,6 +159,7 @@ export function GamificationProvider({ children }: GamificationProviderProps) {
         addAttempt,
         addCorrect,
         unlockAchievement,
+        unlockMedal,
         canContinue,
         getAccuracy,
         resumeFromLastTrail,

@@ -7,9 +7,24 @@ import { Header } from "./components/header";
 import { ProgressProvider } from "./lib/progress-context";
 import { GamificationProvider } from "./lib/gamification-context";
 import { SoundProvider } from "./lib/sound-context";
+import { Welcome } from "./components/welcome";
+
+const WELCOME_STORAGE_KEY = "shiny-path-welcome-completed";
 
 function App() {
   const [isMenuMinimized, setIsMenuMinimized] = useState(false);
+  const [hasCompletedWelcome, setHasCompletedWelcome] = useState(
+    () => localStorage.getItem(WELCOME_STORAGE_KEY) === "true",
+  );
+
+  const completeWelcome = () => {
+    localStorage.setItem(WELCOME_STORAGE_KEY, "true");
+    setHasCompletedWelcome(true);
+  };
+
+  if (!hasCompletedWelcome) {
+    return <Welcome onComplete={completeWelcome} />;
+  }
 
   return (
     <SoundProvider>

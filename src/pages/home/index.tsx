@@ -420,6 +420,10 @@ return{name,email,age};
             <div className="credits-text">
               <h3 className="credits-institution">Instituto Federal de Educação, Ciência e Tecnologia da Bahia</h3>
               <p className="credits-campus">Campus Jacobina</p>
+              <div className="credits-people">
+                <p><strong>Carlos Eduardo de Souza</strong> — Licenciado em Computação · IFBA</p>
+                <p><strong>Profa. Dra. Vanessa dos Santos Rios</strong> — Docente do IFBA</p>
+              </div>
             </div>
           </div>
         </div>
